@@ -12,6 +12,11 @@ export default function Footer() {
             Crafting elegance with every stitch. Specialists in ladies tailoring, aari work,
             hand embroidery and custom bridal blouses at Eraniel, Nagercoil.
           </p>
+          <div className='icon__wrap '>
+            <a href='https://www.instagram.com/vighneswary.vijay?utm_source=qr&igsh=cmw1MHppdnM2N2ti' target="_blank"><img src="/images/instagram.png" alt='instagramicon' /></a>
+            <a href='https://www.facebook.com/profile.php?id=61556777591041&rdid=rofC2VpJAFsx1kIx&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1H9T7t9pJc%2F#' target="_blank"><img src="/images/facebook.png" alt='facebookicon' /></a>
+            <a href='https://www.youtube.com/@urfashioncreatives-tamil' target="_blank"><img src="/images/youtube.png" alt='youtubeicon' /></a>
+          </div>
         </div>
         <div>
           <div className="fh">Quick Links</div>

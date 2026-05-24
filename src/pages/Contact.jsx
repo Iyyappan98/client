@@ -4,15 +4,19 @@ import Footer from '../components/Footer';
 import { toast } from 'react-toastify';
 
 export default function Contact() {
-  const [form, setForm] = useState({ 
-    name: '', 
-    phone: '', 
-    service: '', 
-    message: '' 
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    service: '',
+    message: ''
   });
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+
+  const emailRegex =
+    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   // Phone number validation regex
   const phoneRegex = /^[6-9]\d{9}$/;
@@ -20,7 +24,7 @@ export default function Contact() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm(f => ({ ...f, [name]: value }));
-    
+
     // Typing pannum pothu error-ai remove seiya
     if (errors[name]) {
       setErrors({ ...errors, [name]: '' });
@@ -32,6 +36,12 @@ export default function Contact() {
 
     if (!form.name.trim()) newErrors.name = "Name is required";
 
+    if (!form.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!emailRegex.test(form.email)) {
+      newErrors.email = "Enter a valid email";
+    }
+
     if (!form.phone.trim()) {
       newErrors.phone = "Phone number is required";
     } else if (!phoneRegex.test(form.phone)) {
@@ -39,7 +49,7 @@ export default function Contact() {
     }
 
     if (!form.service) newErrors.service = "Please select a service";
-    
+
     if (!form.message.trim()) newErrors.message = "Message is required";
 
     setErrors(newErrors);
@@ -57,7 +67,13 @@ export default function Contact() {
       const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          service: form.service,
+          message: form.message,
+        }),
       });
 
       const data = await res.json();
@@ -68,9 +84,9 @@ export default function Contact() {
           autoClose: 3000,
           theme: "colored",
         });
-        
+
         // Form reset
-        setForm({ name: '', phone: '', service: '', message: '' });
+        setForm({ name: '', email: '', phone: '', service: '', message: '' });
         setErrors({});
       } else {
         toast.error(data.message || "Something went wrong.");
@@ -163,6 +179,7 @@ export default function Contact() {
               <div className="fg2">
                 <label className="flbl">YOUR NAME</label>
                 <input
+                  type='text'
                   className="finp"
                   name="name"
                   placeholder="Enter your name"
@@ -170,6 +187,19 @@ export default function Contact() {
                   onChange={handleChange}
                 />
                 {errors.name && <small style={{ color: '#ff6b6b', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.name}</small>}
+              </div>
+
+              <div className="fg2">
+                <label className="flbl">YOUR EMAIL</label>
+                <input
+                  type="email"
+                  className="finp"
+                  name="email"
+                  placeholder="Enter your Email.."
+                  value={form.email}
+                  onChange={handleChange}
+                />
+                {errors.email && <small style={{ color: '#ff6b6b', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>{errors.email}</small>}
               </div>
 
               <div className="fg2">
@@ -224,8 +254,8 @@ export default function Contact() {
                 type="submit"
                 className="fsub"
                 disabled={loading}
-                style={{ 
-                  opacity: loading ? 0.7 : 1, 
+                style={{
+                  opacity: loading ? 0.7 : 1,
                   cursor: loading ? 'not-allowed' : 'pointer',
                   marginTop: '1rem',
                   width: '100%'

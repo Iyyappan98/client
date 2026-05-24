@@ -871,6 +871,19 @@ footer {
   text-align: center;
 }
 
+.icon__wrap {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.icon__wrap a img {
+    width: 24px;
+    cursor: pointer;
+    
+    
+}
+
 .cit {
   font-family: 'Playfair Display', serif;
   font-size: 1.3rem;
@@ -1089,6 +1102,8 @@ select.finp option {
   font-family: 'Poppins', sans-serif;
   width: 100%;
 }
+
+
 
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {
